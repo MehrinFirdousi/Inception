@@ -1,0 +1,16 @@
+services:
+  nginx:
+      build:
+        context: requirements/nginx
+        dockerfile: Dockerfile
+      image: nginx
+      container_name: nginx
+      restart: unless-stopped
+      working_dir: /var/www
+      ports:
+        - "5000:80"
+      networks:
+        inception_net
+networks:
+   inception_net:
+       driver: bridge
