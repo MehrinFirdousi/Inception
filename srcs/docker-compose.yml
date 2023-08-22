@@ -9,8 +9,8 @@ services:
       working_dir: /var/www
       ports:
         - "5000:80"
-      networks:
-        inception_net
-networks:
-   inception_net:
-       driver: bridge
+#       networks:
+#         inception_net
+# networks:
+#    inception_net:
+#        driver: bridge
