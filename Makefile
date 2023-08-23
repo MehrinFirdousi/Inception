@@ -1,4 +1,4 @@
-.PHONY: all build up down 
+.PHONY: all start stop sh
 
 COMPOSE_FILE	=	srcs/docker-compose.yml
 DOCKERFILES		=	srcs/requirements/nginx/Dockerfile
@@ -14,3 +14,8 @@ start:	${COMPOSE_FILE} ${DOCKERFILES}
 stop:
 		docker-compose -f ${COMPOSE_FILE} down
 
+sh:
+		docker exec -it nginx /bin/bash
+
+log:
+		docker logs --tail 50 --follow --timestamps nginx

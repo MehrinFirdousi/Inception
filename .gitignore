@@ -1,2 +1,4 @@
 .env
 cmds
+srcs/requirements/nginx/nginx-selfsigned.crt
+srcs/requirements/nginx/nginx-selfsigned.key
