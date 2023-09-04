@@ -14,8 +14,16 @@ start:	${COMPOSE_FILE} ${DOCKERFILES}
 stop:
 		docker-compose -f ${COMPOSE_FILE} down
 
+re:		stop start
+
 sh:
 		docker exec -it nginx /bin/bash
 
-log:
+nglog:
 		docker logs --tail 50 --follow --timestamps nginx
+
+wplog:
+		docker logs --tail 50 --follow --timestamps wordpress
+
+dblog:
+		docker logs --tail 50 --follow --timestamps mariadb

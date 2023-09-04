@@ -1,5 +1,5 @@
-FROM debian:latest
-RUN apt update && apt install nginx -y && apt install ca-certificates -y
+FROM debian:bullseye
+RUN apt update && apt install nginx -y && apt install ca-certificates -y && apt install nano -y
 
 COPY nginx-selfsigned.crt /etc/ssl/certs
 COPY nginx-selfsigned.key /etc/ssl/private
