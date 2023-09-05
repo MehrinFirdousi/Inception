@@ -12,33 +12,37 @@ services:
       - "443:443"
     volumes:
       - /home/mfirdous/data/wp-vol:/var/www/html
-    links:
-      - wordpress
+    networks:
+      inception_net
+    # links:
+    #   - wordpress
 
   mariadb:
-    # build:
-    #   context: requirements/mariadb
-    #   dockerfile: Dockerfile
+    build:
+      context: requirements/mariadb
+      dockerfile: Dockerfile
     image: mariadb
     container_name: mariadb
     restart: unless-stopped
-    ports:
-        - "3306:3306"
+    expose:
+        - "3306"
     volumes:
         - /home/mfirdous/data/mdb-vol:/var/lib/mysql
     environment:
         - MYSQL_ROOT_PASSWORD=aqwe123
+    networks:
+      inception_net
 
   wordpress:
-    # build:
-    #   context: requirements/wordpress
-    #   dockerfile: Dockerfile
-    # image: wordpress
-    image: wordpress:4.7.1-php7.0-fpm
+    build:
+      context: requirements/wordpress
+      dockerfile: Dockerfile
+    image: wordpress
+    # image: wordpress:4.7.1-php7.0-fpm
     container_name: wordpress
     restart: unless-stopped
-    ports:
-        - "9000:9000"
+    expose:
+        - "9000"
     volumes:
         - /home/mfirdous/data/wp-vol:/var/www/html
     environment:
@@ -46,11 +50,11 @@ services:
         - WORDPRESS_TABLE_PREFIX=wp_
         - WORDPRESS_DB_HOST=mysql
         - WORDPRESS_DB_PASSWORD=aqwe123
-    links:
-        - mariadb
+    # links:
+    #     - mariadb
 
-      # networks:
-      #   inception_net
+    networks:
+      inception_net
 networks:
    inception_net:
        driver: bridge
