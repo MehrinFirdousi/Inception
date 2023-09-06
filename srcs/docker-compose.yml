@@ -8,12 +8,12 @@ services:
     restart: unless-stopped
     working_dir: /var/www
     ports:
-      # - "80:80"
-      - "443:443"
+        - "80:80"
+      # - "443:443"
     volumes:
-      - /home/mfirdous/data/wp-vol:/var/www/html
+        - /home/mfirdous/data/wp-vol:/var/www/html
     networks:
-      inception_net
+        - inception_net
     # links:
     #   - wordpress
 
@@ -29,9 +29,10 @@ services:
     volumes:
         - /home/mfirdous/data/mdb-vol:/var/lib/mysql
     environment:
-        - MYSQL_ROOT_PASSWORD=aqwe123
+        - MYSQL_DATABASE=wpdb
+        - MYSQL_ROOT_PASSWORD=123
     networks:
-      inception_net
+        - inception_net
 
   wordpress:
     build:
@@ -43,18 +44,20 @@ services:
     restart: unless-stopped
     expose:
         - "9000"
+    depends_on:
+        - mariadb
     volumes:
         - /home/mfirdous/data/wp-vol:/var/www/html
     environment:
         - WORDPRESS_DB_NAME=wpdb
         - WORDPRESS_TABLE_PREFIX=wp_
         - WORDPRESS_DB_HOST=mysql
-        - WORDPRESS_DB_PASSWORD=aqwe123
+        - WORDPRESS_DB_PASSWORD=123
     # links:
     #     - mariadb
-
     networks:
-      inception_net
+        - inception_net
+
 networks:
    inception_net:
        driver: bridge

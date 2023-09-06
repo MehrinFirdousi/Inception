@@ -1,9 +1,9 @@
 .PHONY: all start stop sh
 
 COMPOSE_FILE	=	srcs/docker-compose.yml
-DOCKERFILES		=	srcs/requirements/nginx/Dockerfile
-#					srcs/requirements/mariadb/Dockerfile
-#					srcs/requirements/wordpress/Dockerfile
+DOCKERFILES		=	srcs/requirements/nginx/Dockerfile \
+					srcs/requirements/mariadb/Dockerfile \
+					srcs/requirements/wordpress/Dockerfile
 
 all:	start
 
@@ -18,6 +18,9 @@ re:		stop start
 
 sh:
 		docker exec -it nginx /bin/bash
+
+wpsh:
+		docker exec -it wordpress /bin/bash
 
 nglog:
 		docker logs --tail 50 --follow --timestamps nginx
