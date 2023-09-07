@@ -10,6 +10,5 @@
 
 # wp config set DB_HOST mariadb:3306 
 
-wp core install --url=http://localhost --title="My WordPress Site" --admin_user=mfirdous --admin_password=mfirdous --admin_email=mfirdous@student.42abudhabi.ae
 
 php-fpm -F 

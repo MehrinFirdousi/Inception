@@ -6,7 +6,7 @@ services:
     image: nginx
     container_name: nginx
     restart: unless-stopped
-    working_dir: /var/www
+    working_dir: /var/www/html
     ports:
         - "80:80"
       # - "443:443"
@@ -16,6 +16,8 @@ services:
         - inception_net
     # links:
     #   - wordpress
+    # env_file:
+    #     - .env
 
   mariadb:
     build:
@@ -29,11 +31,17 @@ services:
     volumes:
         - /home/mfirdous/data/mdb-vol:/var/lib/mysql
     environment:
-        - MYSQL_DATABASE=wpdb
-        - MYSQL_ROOT_PASSWORD=123
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: wpdb
+      MYSQL_USER: mfirdous
+      MYSQL_PASSWORD: 123
+    # environment:
+    #     - MYSQL_DATABASE=wpdb
+    #     - MYSQL_ROOT_PASSWORD=123
     networks:
         - inception_net
-
+    # env_file:
+    #     - .env
   wordpress:
     build:
       context: requirements/wordpress
@@ -42,21 +50,23 @@ services:
     # image: wordpress:4.7.1-php7.0-fpm
     container_name: wordpress
     restart: unless-stopped
-    expose:
-        - "9000"
+    ports:
+        - "9000:9000"
     depends_on:
         - mariadb
     volumes:
         - /home/mfirdous/data/wp-vol:/var/www/html
     environment:
-        - WORDPRESS_DB_NAME=wpdb
-        - WORDPRESS_TABLE_PREFIX=wp_
-        - WORDPRESS_DB_HOST=mysql
-        - WORDPRESS_DB_PASSWORD=123
+      WORDPRESS_DB_NAME: wpdb
+      WORDPRESS_DB_HOST: mariadb:3306
+      WORDPRESS_DB_USER: mfirdous
+      WORDPRESS_DB_PASSWORD: 123
     # links:
     #     - mariadb
     networks:
         - inception_net
+    # env_file:
+    #     - .env
 
 networks:
    inception_net:
