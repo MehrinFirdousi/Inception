@@ -14,13 +14,19 @@ start:	${COMPOSE_FILE} ${DOCKERFILES}
 stop:
 		docker-compose -f ${COMPOSE_FILE} down
 
-re:		stop start
+clean:
+		docker-compose -f ${COMPOSE_FILE} down -v --rmi local
+
+re:		stop clean start
 
 sh:
 		docker exec -it nginx /bin/bash
 
 wpsh:
 		docker exec -it wordpress /bin/bash
+
+dbsh:
+		docker exec -it mariadb /bin/bash
 
 nglog:
 		docker logs --tail 50 --follow --timestamps nginx
