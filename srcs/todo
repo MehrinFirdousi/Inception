@@ -1,5 +1,0 @@
-create wordpress site with php on bare vm
-replace mysql env vars with .env
-replace links with docker network
-
-netstat -plntu
