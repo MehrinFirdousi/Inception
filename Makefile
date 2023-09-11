@@ -4,10 +4,13 @@ COMPOSE_FILE	=	srcs/docker-compose.yml
 DOCKERFILES		=	srcs/requirements/nginx/Dockerfile \
 					srcs/requirements/mariadb/Dockerfile \
 					srcs/requirements/wordpress/Dockerfile
+VOLUMES			=	/home/${USER}/data/mdb \
+					/home/${USER}/data/wp
 
 all:	start
 
 start:	${COMPOSE_FILE} ${DOCKERFILES}
+		mkdir -p ${VOLUMES}
 		docker-compose -f ${COMPOSE_FILE} build
 		docker-compose -f ${COMPOSE_FILE} up -d
 
@@ -16,6 +19,7 @@ stop:
 
 clean:
 		docker-compose -f ${COMPOSE_FILE} down -v --rmi local
+		rm -rf ${VOLUMES}
 
 re:		stop clean start
 

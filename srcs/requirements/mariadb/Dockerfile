@@ -4,9 +4,7 @@ ARG MYSQL_USER
 ARG MYSQL_PASSWORD
 ARG MYSQL_ROOT_PASSWORD
 
-RUN apt-get update --no-install-recommends -y && \
-    apt-get install mariadb-server -y && \
-    apt-get install mariadb-client -y
+RUN apt update -y && apt install mariadb-server -y && apt install mariadb-client -y
 
 RUN chown -R mysql:mysql /var/lib/mysql && \ 
     service mariadb restart && \
