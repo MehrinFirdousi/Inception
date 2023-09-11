@@ -2,16 +2,17 @@ services:
   nginx:
     build:
       context: requirements/nginx
+      args:
+          DOMAIN: ${DOMAIN}
       dockerfile: Dockerfile
     image: nginx
     container_name: nginx
     restart: unless-stopped
     working_dir: /var/www/html
     ports:
-        # - "80:80"
       - "443:443"
     volumes:
-        - /home/mfirdous/data/wp-vol:/var/www/html
+        - wp-vol:/var/www/html
     networks:
         - inception_net
     env_file:
@@ -40,24 +41,22 @@ services:
   wordpress:
     build:
       context: requirements/wordpress
+      args:
+          WP_PASSWORD: ${WP_PASSWORD}
+          WP_ADMIN: ${WP_ADMIN}
+          WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+          NEW_USER_PASS: ${NEW_USER_PASS}
+          DOMAIN: ${DOMAIN}
       dockerfile: Dockerfile
     image: wordpress
-    # image: wordpress:4.7.1-php7.0-fpm
     container_name: wordpress
     restart: unless-stopped
     expose:
         - "9000"
-    # ports:
-    #     - "9000:9000"
     depends_on:
         - mariadb
     volumes:
         - wp-vol:/var/www/html
-    # environment:
-    #   WORDPRESS_DB_NAME: wpdb
-    #   WORDPRESS_DB_HOST: mariadb:3306
-    #   WORDPRESS_DB_USER: mfirdous
-    #   WORDPRESS_DB_PASSWORD: 123
     networks:
         - inception_net
     env_file:

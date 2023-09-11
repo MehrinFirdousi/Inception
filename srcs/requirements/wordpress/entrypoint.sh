@@ -1,16 +1,15 @@
 #!/bin/bash 
 
-# Configure WordPress with environment variables (if needed) 
+WPPATH="/var/www/html/wordpress/"
+WP="wp-cli.phar --path=$WPPATH --allow-root"
 
-wp config set DB_NAME $MYSQL_DATABASE 
+mkdir -p $WPPATH
 
-wp config set DB_USER $MYSQL_USER 
+$WP core download
+$WP config create --dbhost=mariadb:3306 --dbname=$MYSQL_DATABASE --dbuser=$MYSQL_USER --dbpass=$MYSQL_PASSWORD
+$WP core install --url=$DOMAIN --title="My WordPress Site" --admin_name=$WP_ADMIN --admin_password=$WP_PASSWORD --admin_email=$WP_ADMIN_EMAIL
+$WP user create jensown jensown@mehrin.com --role=contributor --user_pass=$NEW_USER_PASS
 
-wp config set DB_PASSWORD $MYSQL_PASSWORD 
+chown -R www-data:www-data $WPPATH
 
-wp config set DB_HOST mariadb:3306 
-
-wget https://wordpress.org/latest.zip && unzip latest.zip -d /var/www/html/
-chown -R www-data:www-data /var/www/html/wordpress/
-
-php-fpm7.4 -F 
+php-fpm7.4 -F

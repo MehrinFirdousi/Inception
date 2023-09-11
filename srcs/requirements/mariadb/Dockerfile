@@ -5,7 +5,6 @@ ARG MYSQL_PASSWORD
 ARG MYSQL_ROOT_PASSWORD
 
 RUN apt update -y && apt install mariadb-server -y && apt install mariadb-client -y
-
 RUN chown -R mysql:mysql /var/lib/mysql && \ 
     service mariadb restart && \
     echo -e "\ny\ny\n${MYSQL_ROOT_PASSWORD}\n${MYSQL_ROOT_PASSWORD}\ny\ny\ny\ny\n" | mysql_secure_installation && \
@@ -15,7 +14,6 @@ RUN chown -R mysql:mysql /var/lib/mysql && \
                 ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}'; \
                 FLUSH PRIVILEGES;" && \
     service mariadb restart
-
 COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 ENTRYPOINT [ "mysqld", "--defaults-file=/etc/mysql/mariadb.conf.d/50-server.cnf" ]

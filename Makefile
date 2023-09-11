@@ -7,21 +7,22 @@ DOCKERFILES		=	srcs/requirements/nginx/Dockerfile \
 VOLUMES			=	/home/${USER}/data/mdb \
 					/home/${USER}/data/wp
 
-all:	start
+all:	build start
 
-start:	${COMPOSE_FILE} ${DOCKERFILES}
+build:	${COMPOSE_FILE} ${DOCKERFILES}
 		mkdir -p ${VOLUMES}
 		docker-compose -f ${COMPOSE_FILE} build
+
+start:
 		docker-compose -f ${COMPOSE_FILE} up -d
 
 stop:
-		docker-compose -f ${COMPOSE_FILE} down
+		docker-compose -f ${COMPOSE_FILE} stop
 
 clean:
 		docker-compose -f ${COMPOSE_FILE} down -v --rmi local
-#		rm -rf ${VOLUMES}
 
-re:		stop clean start
+re:		stop clean build start
 
 sh:
 		docker exec -it nginx /bin/bash

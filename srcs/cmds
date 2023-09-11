@@ -1,2 +1,0 @@
-to connect to mysql as client 
-mysql -h localhost -P 3306 --protocol=tcp -u root -p
