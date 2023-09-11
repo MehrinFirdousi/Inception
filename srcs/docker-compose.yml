@@ -8,8 +8,8 @@ services:
     restart: unless-stopped
     working_dir: /var/www/html
     ports:
-        - "80:80"
-      # - "443:443"
+        # - "80:80"
+      - "443:443"
     volumes:
         - /home/mfirdous/data/wp-vol:/var/www/html
     networks:
@@ -45,8 +45,10 @@ services:
     # image: wordpress:4.7.1-php7.0-fpm
     container_name: wordpress
     restart: unless-stopped
-    ports:
-        - "9000:9000"
+    expose:
+        - "9000"
+    # ports:
+    #     - "9000:9000"
     depends_on:
         - mariadb
     volumes:
