@@ -19,7 +19,7 @@ stop:
 
 clean:
 		docker-compose -f ${COMPOSE_FILE} down -v --rmi local
-		rm -rf ${VOLUMES}
+#		rm -rf ${VOLUMES}
 
 re:		stop clean start
 
